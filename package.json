@@ -1,0 +1,1 @@
+{"description":"UVA 无人机智能指挥系统 — 高仿 MVP（零依赖 Node + SQLite + 原生前端）","engines":{"node":">=22"},"license":"UNLICENSED","main":"src/server.js","name":"uva","private":true,"scripts":{"dev":"node --watch src/server.js","start":"node src/server.js","test":"node test/smoke.js"},"type":"commonjs","version":"0.1.0"}

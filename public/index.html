@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UVA · 无人机智能指挥系统（模拟）</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 登录 -->
+<div id="loginView">
+  <div class="login-card">
+    <h1>UVA <span>指挥系统</span></h1>
+    <p>无人机智能指挥系统 · 高仿 MVP<br><span class="sim-badge">模拟数据 · SIMULATED</span></p>
+    <label>用户名</label><input id="loginUser" value="demo" autocomplete="username">
+    <label>密码</label><input id="loginPass" type="password" value="uva-demo" autocomplete="current-password">
+    <button id="loginBtn">登 录</button>
+    <p class="muted" id="loginHint" style="margin-top:12px">演示账号 demo / uva-demo（仅本地模拟系统）</p>
+  </div>
+</div>
+
+<!-- 主界面 -->
+<div id="app">
+  <header class="topbar">
+    <div class="logo">UVA<span>·</span></div>
+    <select id="orgSelect" aria-label="项目/组织"><option>惠州演示区巡检项目</option><option>演示区测绘项目</option></select>
+    <div class="avatars" id="avatarGroup" title="区域成员"></div>
+    <span class="sim-badge">模拟数据</span>
+    <div class="top-right">
+      <span class="muted">数据时间 <span class="mono" id="dataTime">--</span> · 来源 模拟引擎</span>
+      <span class="clock" id="clock">--:--:--</span>
+      <span class="alert-count" id="alertCount" title="未确认告警">告警 0</span>
+      <button id="fsBtn" title="全屏">⛶ 全屏</button>
+      <button id="logoutBtn">退出</button>
+    </div>
+  </header>
+  <div class="workspace">
+    <nav class="iconrail">
+      <button data-open="situation" title="态势">◎</button>
+      <button data-open="workflow" title="任务规划">⌖</button>
+      <button data-open="devices" title="设备中心">✈</button>
+      <button data-open="media" title="媒体中心">▦</button>
+      <button data-open="alerts" title="消息中心">⚠</button>
+      <button data-open="org" title="用户中心">👥</button>
+      <button data-open="projects" title="项目中心">▤</button>
+      <button data-open="search" title="智能搜索">⌕</button>
+    </nav>
+    <div class="main">
+      <div class="tabbar" id="tabbar"></div>
+      <div class="tabbody">
+
+        <!-- 态势页 -->
+        <section class="page" id="page-situation">
+          <div class="sit-body">
+            <aside class="assistant">
+              <h3>AI 助理 · 模拟规则问答</h3>
+              <div class="chips">
+                <button data-ask="智能生成任务">智能生成任务</button>
+                <button data-ask="查看机队状态">查看机队状态</button>
+                <button data-ask="低电量处理建议">低电量处理建议</button>
+                <button data-ask="今日任务数">今日任务数</button>
+                <button data-ask="告警情况">告警情况</button>
+              </div>
+              <div class="chat" id="chatBox">
+                <div class="msg bot">你好，我是 UVA 模拟助理。可以问我机队状态、低电量清单、今日任务数——回答均实时查询模拟数据库。</div>
+              </div>
+              <div class="chat-input"><input id="chatInput" placeholder="创建任务或提问…"><button id="chatSend">发送</button></div>
+            </aside>
+            <div class="mapwrap">
+              <canvas id="mapCanvas"></canvas>
+              <div class="map-tools">
+                <button title="指北">N</button><button title="图层" id="layerBtn">▧</button>
+                <button title="放大" id="zoomIn">+</button><button title="缩小" id="zoomOut">−</button>
+                <button title="全屏" onclick="document.documentElement.requestFullscreen()">⛶</button>
+              </div>
+              <div class="map-legend">■ <span style="color:#e5534b">限飞区</span> ■ <span style="color:#e0a63c">任务区</span> ■ <span style="color:#d7dee9">区域边界</span> · ✈ 无人机 · ⌂ 机巢 · 坐标为虚构演示区</div>
+            </div>
+            <aside class="rightpanel">
+              <div id="detailSlot"></div>
+              <div class="panel"><h3>追踪</h3><div id="trackList"><div class="card">友方 · 在飞 <span class="mono" id="trackFlying">-</span> 架 · 点击地图标记查看本体详情</div></div></div>
+              <div class="panel"><h3>设备 · 机巢</h3><div id="dockCards"></div></div>
+              <div class="panel"><h3>直播 · 模拟画面</h3>
+                <div class="card"><div class="t"><span>机巢 A · 巢外机位</span><span class="tag green">LIVE·模拟</span></div>
+                <canvas class="simvid" id="vid1" width="272" height="130"></canvas>
+                <div class="muted mono" id="vidOsd1">OSD --</div></div>
+                <div class="card"><div class="t"><span>巡检一号 · 机载视角</span><span class="tag green">LIVE·模拟</span></div>
+                <canvas class="simvid" id="vid2" width="272" height="130"></canvas>
+                <div class="muted mono" id="vidOsd2">OSD --</div></div>
+              </div>
+              <div class="panel"><h3>任务</h3><div id="taskCards"></div></div>
+            </aside>
+          </div>
+          <footer class="eventbar"><span>事件流</span><span class="ev" id="eventLatest">等待模拟引擎事件…</span><span class="mono" id="eventHistory"></span></footer>
+        </section>
+
+        <!-- 任务规划 -->
+        <section class="page" id="page-workflow">
+          <h2 class="page-title">任务规划画布 · 打开即示例方案</h2>
+          <p class="muted" style="margin-bottom:8px">示例方案：「南门周界巡检线」航点连线（canvas 绘制）· 状态机 草稿 → 待下发 → 执行中 → 已完成/异常 · 下发为模拟回执</p>
+          <canvas id="planCanvas" width="980" height="420" style="border:1px solid var(--line);background:#0a0f16;max-width:100%"></canvas>
+          <div style="margin-top:10px;display:flex;gap:8px"><button id="dispatchBtn">模拟下发</button><span class="mono muted" id="dispatchAck"></span></div>
+          <div id="missionTable" style="margin-top:14px"></div>
+        </section>
+
+        <!-- 设备中心 -->
+        <section class="page" id="page-devices">
+          <h2 class="page-title">设备中心</h2>
+          <div class="subtabs"><button data-sub="drones">飞机</button><button data-sub="docks">机巢</button></div>
+          <div class="colcfg" id="colCfg"></div>
+          <div id="deviceTable"></div>
+        </section>
+
+        <!-- 媒体中心 -->
+        <section class="page" id="page-media">
+          <h2 class="page-title">媒体中心 · 计划执行记录</h2>
+          <div id="recordTable"></div>
+          <h2 class="page-title" style="margin-top:18px">轨迹回放（第一条记录）</h2>
+          <canvas id="replayCanvas" width="720" height="260" style="border:1px solid var(--line);background:#0a0f16;max-width:100%"></canvas>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><span class="mono" id="replayLabel">t=0</span><input type="range" id="replaySlider" min="0" max="100" value="0" style="flex:1"></div>
+        </section>
+
+        <!-- 消息中心 -->
+        <section class="page" id="page-alerts">
+          <h2 class="page-title">消息中心 · 设备告警</h2>
+          <div id="alertTable"></div>
+        </section>
+
+        <!-- 用户中心 -->
+        <section class="page" id="page-org">
+          <h2 class="page-title">用户中心 · 成员</h2>
+          <div id="memberTable"></div>
+        </section>
+
+        <!-- 项目中心 -->
+        <section class="page" id="page-projects">
+          <h2 class="page-title">项目中心</h2>
+          <div class="proj-grid" id="projGrid"></div>
+        </section>
+
+        <!-- 智能搜索 -->
+        <section class="page" id="page-search">
+          <h2 class="page-title">智能搜索 · 模拟命中</h2>
+          <div class="toolbar"><input id="searchInput" placeholder="描述目标，如：湖畔附近的巡检画面"><button id="searchBtn">搜索</button><span class="muted">取帧频率 1 fps · 模拟检索</span></div>
+          <div class="proj-grid" id="searchResults"></div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
