@@ -317,7 +317,7 @@ footer { max-width: 1060px; margin-inline: auto; padding-block: 30px 60px; color
 <section id="tab-usecase" role="tabpanel" hidden>
   <p class="lede">三类参与者与 14 个关键用例。飞手/操作员是核心角色，覆盖「管设备 → 计划任务 → 飞行监控 → 远程控制 → 数据复盘」闭环；管理员负责平台自身的组织与权限治理；设备作为系统参与者被动接入与升级。</p>
   <figure class="diagram">
-    <div class="frame" data-zoom="usecase.png"><img src="usecase.png" alt="用例视图：三类参与者与 14 个用例"></div>
+    <div class="frame" data-zoom="usecase.svg"><img src="usecase.svg" alt="用例视图：三类参与者与 14 个用例"></div>
     <figcaption>图 1 · 用例视图（点击放大）— 源文件 01-用例视图.drawio</figcaption>
   </figure>
   <div class="grid g2" style="margin-top:18px">
@@ -332,7 +332,7 @@ footer { max-width: 1060px; margin-inline: auto; padding-block: 30px 60px; color
 <section id="tab-logical" role="tabpanel" hidden>
   <p class="lede">逻辑上分为六层。最重要的两条设计事实：一是<b>全部运行时配置在 Nacos 配置中心</b>（本地化部署时这是第一道门槛）；二是 <b>common-* 内部框架九件套</b>承担了鉴权、日志、MQTT、多数据源等所有横切关注点，业务代码只是「填领域逻辑」。</p>
   <figure class="diagram">
-    <div class="frame" data-zoom="logical.png"><img src="logical.png" alt="逻辑视图：六层架构"></div>
+    <div class="frame" data-zoom="logical.svg"><img src="logical.svg" alt="逻辑视图：六层架构"></div>
     <figcaption>图 2 · 逻辑视图（点击放大）— 源文件 02-逻辑视图.drawio</figcaption>
   </figure>
   <div class="stack" style="margin-top:18px">
@@ -354,7 +354,7 @@ footer { max-width: 1060px; margin-inline: auto; padding-block: 30px 60px; color
 <section id="tab-development" role="tabpanel" hidden>
   <p class="lede">六个仓库按服务边界切分，单人深耕单仓（最高单人 1,422 commits），主干分支长期演进（dev-2.1.0）。依赖治理的核心是 cc-dependencies BOM —— 它决定全平台版本，且以 SNAPSHOT 滚动发布。</p>
   <figure class="diagram">
-    <div class="frame" data-zoom="development.png"><img src="development.png" alt="开发视图：仓库、依赖、构建、团队"></div>
+    <div class="frame" data-zoom="development.svg"><img src="development.svg" alt="开发视图：仓库、依赖、构建、团队"></div>
     <figcaption>图 3 · 开发视图（点击放大）— 源文件 03-开发视图.drawio</figcaption>
   </figure>
   <div class="tbl-wrap" style="margin-top:18px">
@@ -380,7 +380,7 @@ footer { max-width: 1060px; margin-inline: auto; padding-block: 30px 60px; color
 <section id="tab-physical" role="tabpanel" hidden>
   <p class="lede">生产形态：Kubernetes + Helm，按 dev / test / prod 三级环境部署在中国、欧洲、北美多区域。设备侧经 4G/专网以 MQTT 接入 EMQX，视频走独立流媒体通道。页面下方同时给出本机复刻的验证环境——它与生产同构，是理解部署拓扑的最小样本。</p>
   <figure class="diagram">
-    <div class="frame" data-zoom="physical.png"><img src="physical.png" alt="物理视图：K8s 部署拓扑与本地验证环境"></div>
+    <div class="frame" data-zoom="physical.svg"><img src="physical.svg" alt="物理视图：K8s 部署拓扑与本地验证环境"></div>
     <figcaption>图 4 · 物理视图（点击放大）— 源文件 04-物理视图.drawio</figcaption>
   </figure>
   <div class="tbl-wrap" style="margin-top:18px">
@@ -403,7 +403,7 @@ footer { max-width: 1060px; margin-inline: auto; padding-block: 30px 60px; color
 <section id="tab-process" role="tabpanel" hidden>
   <p class="lede">运行时存在三条相互独立的通道：控制面 HTTP 同步流、设备面 MQTT 异步流、视频面流媒体直连通道。把它们分开设计是正确的——视频和遥测的大流量不经过网关，网关只承载 API。</p>
   <figure class="diagram">
-    <div class="frame" data-zoom="process.png"><img src="process.png" alt="进程视图：同步/异步/视频三条通道"></div>
+    <div class="frame" data-zoom="process.svg"><img src="process.svg" alt="进程视图：同步/异步/视频三条通道"></div>
     <figcaption>图 5 · 进程视图（点击放大）— 源文件 05-进程视图.drawio</figcaption>
   </figure>
   <div class="stack" style="margin-top:18px">
