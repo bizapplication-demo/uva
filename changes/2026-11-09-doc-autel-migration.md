@@ -20,3 +20,8 @@
 - HTTPS 已补齐：certbot webroot 签发 doc.outofwork.cn 证书（Let's Encrypt，到期 2027-02-07）；证书已同步到容器证书目录 /etc/nginx/conf.d/cert/doc.outofwork.cn.{pem,key}，新增续期 hook /etc/letsencrypt/renewal-hooks/deploy/30-doc-copy.sh（续期后仍需手工 reload 容器 nginx，同现网模式）。
 - doc.conf 已升级为 80 跳 443 + 443 静态服务式样（仿 uva-app.conf）；服务器侧验收：https index 200（36,179B）、logical.svg 200（508,541B, image/svg+xml）、http 301 跳 https、app.outofwork.cn 回归 200。
 - 正式地址：https://doc.outofwork.cn/uva/arch/autel/
+
+## 重绘 v2（2026-11-09 晚，用户指原图不美观）
+- 五张视图图已按统一风格真矢量重绘（深蓝标题带 + 浅底分区 + 语义色白卡，承 FDE 样例版式与本站配色经验），同名替换 docs/autel 的 5 个 .svg（原为 PNG 的 base64 包装，约 500KB/张；新版纯矢量 9–17KB/张）。内容逐项对回说明书正文与原图，未改事实口径；原图问题（盒子重叠、文字截断、连线混乱）在新版已消除。
+- 真源：workspace/eis-arch-redraw/《重绘文字稿-v2.md》+ gen_views.py 生成脚本；旧版 SVG 备份在同目录 v1-backup/，回退 = 覆盖同名文件再推一次。
+- 页面 index.html 引用不变（仍是同名 .svg），无需改页。
