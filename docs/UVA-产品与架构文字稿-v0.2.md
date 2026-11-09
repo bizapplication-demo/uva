@@ -17,7 +17,7 @@
 - 前端：https://app.outofwork.cn/uva/        （静态 SPA，同域子路径）
 - 后端：https://api.outofwork.cn/uva/        （REST + WebSocket，同前缀）
   注：用户口头写的 api.outofwork/uva 按 api.outofwork.cn 理解，待确认。
-- 仓库：https://github.com/bizappliation-demo/uva （组织 bizappliation-demo，企业业务应用示例）
+- 仓库：https://github.com/bizapplication-demo/uva （组织 bizapplication-demo，企业业务应用示例）
 - 后续应用同模式：/pm → 仓库 pm，/crm → 仓库 crm；每个应用独立仓库、独立部署、独立 SQLite
 - 平台层只共享三样：登录口径（后续统一）、设计令牌、部署脚本模板；业务代码不共享、不做 monorepo
 
@@ -111,7 +111,7 @@ alerts（告警：级别/对象/状态），fences（围栏多边形），media�
   → 待用户在阿里云 DNS 添加（指向哪台机见下，拍板后执行 vhost+证书）
 - 部署节点候选：ecs-sz（47.112.123.73，已备案展示机，带宽小）或 ecs-tx（腾讯云 4核4G 最空，
   但出带宽 3M）；UVA 是演示系统，建议先 ecs-sz 同机（与备案域一致），压测不行再迁
-- GitHub：组织 bizappliation-demo 存在（公开仓库 0 个）；uva 仓库未授权 Muse 访问
+- GitHub：组织 bizapplication-demo 存在（公开仓库 0 个）；uva 仓库未授权 Muse 访问
   （API 404 / 搜索无权限）→ 待用户在 GitHub App 安装中勾选该仓库（或新建并勾选）
 - 本地 git/gh：gh 未登录；推送走 GitHub App（MCP）或用户授权后配 git 凭据，二选一在脚手架时定
 

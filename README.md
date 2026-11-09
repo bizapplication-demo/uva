@@ -61,4 +61,4 @@ uva/
 
 ## 部署预告（未执行）
 
-目标形态：`app.outofwork.cn/uva`（前端）+ `api.outofwork.cn/uva`（后端）。前置未决：两子域名 DNS 尚无 A 记录、GitHub 仓库 `bizappliation-demo/uva` 尚未授权本机推送。本版仅本地 git 管理，**不推送**。部署时由 nginx 反代到本进程端口即可（单进程托管静态文件，无需单独前端部署）。
+目标形态：`app.outofwork.cn/uva`（前端）+ `api.outofwork.cn/uva`（后端）。前置未决：两子域名 DNS 尚无 A 记录、GitHub 仓库 `bizapplication-demo/uva` 尚未授权本机推送。本版仅本地 git 管理，**不推送**。部署时由 nginx 反代到本进程端口即可（单进程托管静态文件，无需单独前端部署）。
