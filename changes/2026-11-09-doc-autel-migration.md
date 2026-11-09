@@ -14,3 +14,9 @@
 - PNG 二进制进不了仓的问题改用 **SVG 包装**解决：每张 PNG 以 base64 内嵌进同名 .svg（纯文本、逐字节哈希校验与原图一致，非矢量重绘，放大不增清晰度）；index.html 引用已全部由 .png 改为 .svg。单文件约 450–510KB。
 - GitHub：index.html + 5 个 .svg 已一并推送（见下个提交）。docs/autel 自此只含 index.html + 5×.svg，PNG 不再入仓（源站与服务器部署副本仍保留 PNG 文件本身，不影响引用）。
 - 若将来想要可编辑的真矢量图：按说明书文字 + 原图逐张重绘是另一单活，本次未做。
+
+## 收尾（2026-11-09 15:35，用户已加 DNS）
+- DNS 双路 DoH 核实：doc.outofwork.cn A → 47.112.123.73 已生效。
+- HTTPS 已补齐：certbot webroot 签发 doc.outofwork.cn 证书（Let's Encrypt，到期 2027-02-07）；证书已同步到容器证书目录 /etc/nginx/conf.d/cert/doc.outofwork.cn.{pem,key}，新增续期 hook /etc/letsencrypt/renewal-hooks/deploy/30-doc-copy.sh（续期后仍需手工 reload 容器 nginx，同现网模式）。
+- doc.conf 已升级为 80 跳 443 + 443 静态服务式样（仿 uva-app.conf）；服务器侧验收：https index 200（36,179B）、logical.svg 200（508,541B, image/svg+xml）、http 301 跳 https、app.outofwork.cn 回归 200。
+- 正式地址：https://doc.outofwork.cn/uva/arch/autel/
