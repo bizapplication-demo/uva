@@ -13,18 +13,10 @@ async function api(path, opts = {}) {
 function skeleton(el, rows = 5) { el.innerHTML = '<div class="skel">' + '<i></i>'.repeat(rows) + '</div>'; }
 function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 
-/* ---------- 登录 ---------- */
-function showLogin() { $('#loginView').style.display = 'flex'; $('#app').style.display = 'none'; }
-function showApp() { $('#loginView').style.display = 'none'; $('#app').style.display = 'flex'; initApp(); }
-$('#loginBtn').addEventListener('click', doLogin);
-$('#loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-async function doLogin() {
-  const r = await fetch(BASE + '/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: $('#loginUser').value, password: $('#loginPass').value }) });
-  const j = await r.json();
-  if (!j.ok) { $('#loginHint').textContent = '登录失败: ' + (j.error || ''); return; }
-  token = j.token; localStorage.setItem('uva_token', token); showApp();
-}
-$('#logoutBtn').addEventListener('click', () => { localStorage.removeItem('uva_token'); token = ''; showLogin(); });
+/* ---------- 进入（无自有登录：统一走门户登录页，2026-11-11） ---------- */
+function showLogin() { showApp(); }
+function showApp() { const a = $('#app'); if (a) a.style.display = 'flex'; initApp(); }
+$('#logoutBtn').addEventListener('click', () => { location.href = 'https://app.outofwork.cn/'; });
 $('#fsBtn').addEventListener('click', () => document.documentElement.requestFullscreen());
 
 /* ---------- 页签工作台 ---------- */
@@ -324,4 +316,4 @@ $('#searchBtn') && $('#searchBtn').addEventListener('click', () => {
 });
 
 /* 启动 */
-if (token) { fetch(BASE + '/overview', { headers: { Authorization: 'Bearer ' + token } }).then(r => r.ok ? showApp() : showLogin()).catch(() => showLogin()); }
+showApp();

@@ -45,9 +45,13 @@ function authUser(req) {
   const row = db.prepare(`SELECT u.* FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token=? AND s.expires_at>datetime('now')`).get(token);
   return row || null;
 }
+// 2026-11-11 用户定：UVA 去掉自有登录，统一走门户登录页；无令牌时回退演示用户直接进控制台
+function demoUser() {
+  return db.prepare("SELECT * FROM users WHERE username='demo'").get() || null;
+}
 function requireAuth(req, res) {
-  const u = authUser(req);
-  if (!u) { json(res, 401, { ok: false, simulated: true, error: 'unauthorized', hint: 'POST /uva/api/v1/login with demo/uva-demo' }); return null; }
+  const u = authUser(req) || demoUser();
+  if (!u) { json(res, 401, { ok: false, simulated: true, error: 'unauthorized' }); return null; }
   return u;
 }
 
@@ -81,6 +85,7 @@ async function handle(req, res) {
     const tokenQ = url.searchParams.get('token');
     let user = authUser(req);
     if (!user && tokenQ) user = db.prepare(`SELECT u.* FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token=? AND s.expires_at>datetime('now')`).get(tokenQ);
+    if (!user) user = demoUser();
     if (!user) return json(res, 401, { ok: false, error: 'unauthorized' });
     res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
     res.write(`event: hello\ndata: ${JSON.stringify({ simulated: true, at: new Date().toISOString() })}\n\n`);

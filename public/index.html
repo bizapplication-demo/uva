@@ -7,18 +7,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- 登录 -->
-<div id="loginView">
-  <div class="login-card">
-    <h1>UVA <span>指挥系统</span></h1>
-    <p>无人机智能指挥系统 · 高仿 MVP<br><span class="sim-badge">模拟数据 · SIMULATED</span></p>
-    <label>用户名</label><input id="loginUser" value="demo" autocomplete="username">
-    <label>密码</label><input id="loginPass" type="password" value="uva-demo" autocomplete="current-password">
-    <button id="loginBtn">登 录</button>
-    <p class="muted" id="loginHint" style="margin-top:12px">演示账号 demo / uva-demo（仅本地模拟系统）</p>
-  </div>
-</div>
-
 <!-- 主界面 -->
 <div id="app">
   <header class="topbar">
@@ -31,7 +19,7 @@
       <span class="clock" id="clock">--:--:--</span>
       <span class="alert-count" id="alertCount" title="未确认告警">告警 0</span>
       <button id="fsBtn" title="全屏">⛶ 全屏</button>
-      <button id="logoutBtn">退出</button>
+      <button id="logoutBtn">返回百宝箱</button>
     </div>
   </header>
   <div class="workspace">
